@@ -1,0 +1,8 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+        "namespace": "android_app",
+        "package_name": "com.zappfoundry.bigbitesburgers",
+        "sha256_cert_fingerprints": ["FB:EF:A1:9D:63:EE:EE:59:D7:CF:28:93:34:19:88:17:F9:89:49:E2:ED:F5:C7:AD:6D:EF:7B:76:9A:28:E3:D6"]
+    }
+}]

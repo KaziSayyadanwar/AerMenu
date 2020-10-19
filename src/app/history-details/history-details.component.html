@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="d-flex justify-content-center align-content-center flex-wrap">
+        <div>
+            <div class="card mb-3">
+                <div class="card-body" *ngIf="item">
+                    <div id="pdf">
+                        <h3 style="text-align: center;">Invoice</h3>
+                        <div class="d-flex flex-row justify-content-between">
+                            <p class="card-text" *ngIf="item">
+                                <small class="text-muted">Date :{{ item.timeStamp }}</small>
+                            </p>
+                            <span></span>
+                            <p style="text-align: end;">Order Id - {{ item.orderID }}</p>
+                        </div>
+                        <hr>
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Item Price</th>
+                                    <th>Quantity</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tr></tr>
+                            <tbody *ngIf="item">
+                                <tr *ngFor="let item of item.orders">
+                                    <td>{{ item.itemName }}</td>
+                                    <td>{{ item.itemPrice}}</td>
+                                    <td>{{ item.itemCount }}</td>
+                                    <td>{{ item.itemTotal }}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total Amount</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>{{item.totalAmount}}</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <button (click)="backToPastOrders()" class="btn mb-2 btn-primary mr-5">
+              Back
+            </button>
+                    <button (click)="downloadPdf()" class="btn mb-2 btn-primary">
+              Send PDF
+            </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

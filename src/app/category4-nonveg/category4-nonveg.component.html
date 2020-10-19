@@ -1,0 +1,78 @@
+<div class="container">
+    <mat-toolbar class="d-flex justify-content-between bg-light mb-2">
+        <span>{{
+        dbService.itemDetailsForm.controls["ItemId"].value
+          ? "Edit item from Frankie menu (NonVeg)" 
+          : "Add new item to Frankie menu (NonVeg)"
+      }}</span>
+        <!-- Burgers ==> Category Name to be updated  -->
+
+        <button class="btn-dialog-close btn-outline-danger" mat-stroked-button (click)="onClose()" tabindex="-1">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-toolbar>
+    <form [formGroup]="dbService.itemDetailsForm" class="normal-class">
+        <mat-grid-list cols="2" row="1" rowHeight="300px">
+            <mat-grid-tile>
+                <input type="hidden" formControlName="ItemId" />
+                <input type="hidden" formControlName="ItemRatings" />
+                <input type="hidden" formControlName="ItemSize" />
+                <input type="hidden" formControlName="ImageUrl" />
+
+                <div class="controller-container">
+                    <mat-form-field>
+                        <input formControlName="ItemName" matInput placeholder="Enter item name*" />
+                        <mat-error>
+                            Please enter Item Name.
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input formControlName="ItemDescription" matInput placeholder="Enter item details" />
+                        <mat-error>
+                            Item details is mandatory.
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input formControlName="ItemPrice" matInput type="number" placeholder="Enter item price*" />
+                        <mat-error>
+                            Please enter item price
+                        </mat-error>
+                    </mat-form-field>
+
+
+                </div>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <div class="controller-container">
+                    <mat-form-field>
+                        <input formControlName="ItemPrepTime" matInput type="number" placeholder="Approx time for preparation*" />
+                    </mat-form-field>
+
+                    <div class="d-flex flex-row" style="margin: 20px;">
+                        <mat-slide-toggle formControlName="IsSpicy" color="primary" style="padding: 10px;">Spicy?
+                        </mat-slide-toggle>
+                        <mat-slide-toggle formControlName="ItemSpecial" color="primary" style="padding: 10px;">Special?
+                        </mat-slide-toggle>
+                        <mat-slide-toggle formControlName="isAvailable" color="primary" style="padding: 10px;">Available?
+                        </mat-slide-toggle>
+                    </div>
+
+                    <div class="d-flex flex-row">
+                        <div class="col" style="margin-top: 10px;">
+                            <button class="btn btn-block btn-outline-info" type="submit" (click)="onSubmit()">
+                  Submit
+                </button>
+                        </div>
+                        <div class="col" style="margin-top: 10px;">
+                            <button class="btn btn-block btn-outline-danger" type="submit" (click)="onCancel()">
+                  Cancel
+                </button>
+                        </div>
+                    </div>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </form>
+</div>

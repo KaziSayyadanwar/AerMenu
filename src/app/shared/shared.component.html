@@ -1,0 +1,81 @@
+<!-- Top Bar ====================================-->
+<div class="d-flex flex-row">
+    <div class="d-flex  justify-content-between flex-wrap" style=" background-color: whitesmoke;width: 100%;">
+        <div style="margin: 10px ">
+            <img src="../assets/img/small M.png" alt="no img" />
+            <!-- Logo -->
+        </div>
+        <div>
+            <div class="d-flex flex-row">
+                <a style="cursor: pointer; margin: 8px 0px 8px 8px;" class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" title="Log Out" (click)="logOut()">
+                    <img class="icons" src="../assets/img/restaurantlogo.png" alt="wrong path" />
+                </a>
+                <h6 style="margin: 20px 20px 20px 0px; font-size: medium;">Big Bites Burgers</h6>
+                <!-- Restaurant's Name -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Left Side Navbar=============================== -->
+<div class="d-flex flex-row">
+    <nav id="theDiv" class="nav flex-column flex-wrap overflow-hidden" style="background-color:#1c2833;">
+        <ul id="ul" class="navbar-nav" style="padding: 10px;">
+            <li class="nav-item">
+                <a id="try" class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" title="Live Orders" [routerLink]="['live']">
+                    <img id="liveonHover" class="icons" src="../assets/img/live-streaming.png" alt="wrong path" />
+                    <span class="d-none d-sm-inline"> &nbsp; Live Orders</span></a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+                <a class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" title="Past orders" [routerLink]="['history']"><img class="icons" src="../assets/img/pastorders.png" alt="wrong path" />
+                    <span class="d-none d-sm-inline">
+            &nbsp;&nbsp; Past Orders</span></a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+                <a class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" title="BURGERS" [routerLink]="['cat1']"><img class="icons" src="../assets/img/soups.png" alt="wrong path" />
+                    <span class="d-none d-sm-inline"> &nbsp; BURGERS </span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" title="PANINI BREAD SANDWICH" [routerLink]="['cat2']"><img class="icons" src="../assets/img/appetizer.png" alt="wrong path" />
+                    <span class="d-none d-sm-inline"> &nbsp; PANINI BREAD SANDWICH </span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" title="GRILL SANDWICHES" [routerLink]="['cat3']"><img class="icons" src="../assets/img/maincourse.png" alt="wrong path" />
+                    <span class="d-none d-sm-inline">
+            &nbsp; GRILL SANDWICHES
+          </span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" title="FRANKIE" [routerLink]="['cat4']"><img class="icons" src="../assets/img/deserts.png" alt="wrong path" />
+                    <span class="d-none d-sm-inline">
+            &nbsp; FRANKIE
+          </span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" title="MR FRIES" [routerLink]="['cat5']"><img class="icons" src="../assets/img/drinks.png" alt="wrong path" />
+                    <span class="d-none d-sm-inline"> &nbsp; MR FRIES </span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" title="SIDERS" [routerLink]="['cat6']"><img class="icons" src="../assets/img/info.png" alt="wrong path" />
+                    <span class="d-none d-sm-inline">
+            &nbsp; SIDERS</span></a>
+            </li>
+
+            <div class="dropdown-divider bg-alert"></div>
+            <li class="nav-item" style="cursor: pointer;">
+                <a id="toggle" class="btn">
+                    <img style="width: 17px; height: 17px;" class="icons" src="../assets/img/open.png" alt="wrong path" /></a>
+                <a id="toggle1" class="btn" style="display: none;">
+                    <img style="width: 17px; height: 17px;" class="icons" src="../assets/img/close.png" alt="wrong path" />
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div style="height: 100vh; width: 100%; overflow: scroll;">
+        <div class="align-self-center" style="margin-top: 20px;">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

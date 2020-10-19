@@ -1,0 +1,366 @@
+<div class="container-fluid" id="TableDiv">
+    <div style="margin-bottom: 20px; border-radius: 0px;">
+        <div class="d-flex justify-content-between">
+            <div></div>
+            <h4 style="text-align: center; margin-bottom: 20px; font-family: montserrat;">
+                LIVE ORDERS
+            </h4>
+            <div>
+                <div class="d-flex flex-row">
+                    <button class="btn btn-light mr-2" (click)="getButton()">Generate Bill button</button>
+                    <button class="btn btn-light" (click)="clearAllNotifications()">Clear all notifications</button>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="background-color: whitesmoke;">
+            <div class="col-8">
+                <mat-tab-group mat-align-tabs="start">
+                    <mat-tab label="Take-Away Orders">
+                        <div class="example-large-box mat-elevation-z4" class="example-large-box mat-elevation-z4" style="border-radius: 0px; background-color: whitesmoke;">
+                            <div class="card  p-3 mb-5 bg-white" style="border-radius: 3px; width: 100%;" *ngIf="takeAway">
+                                <ng-container *ngIf="takeAway.length!=0; else elseTemplate">
+                                    <div class="d-flex flex-row flex-wrap">
+                                        <div class="card bg-light m-2" *ngFor="let item of takeAway">
+                                            <div class="card-header">
+                                                <div class="row">
+                                                    <div class="col text-left" style="font-family: montserrat;">
+                                                        Order ID - {{item.orderID}}
+                                                    </div>
+                                                    <div class="col text-right" style="font-family: montserrat;">
+                                                        {{item.userPhone}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-4 ml-4" style="font-family: montserrat;">
+                                                    Name
+                                                </div>
+                                                <div class="col text-right" style="font-family: montserrat;">
+                                                    Qty.
+                                                </div>
+                                                <div class="col text-right" style="font-family: montserrat;">
+                                                    Price
+                                                </div>
+                                                <div class="col mr-2" style="font-family: montserrat;">
+                                                    Amt.
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div *ngFor="let order of item.orders">
+                                                    <div class="row">
+                                                        <div class="col-6" style="font-family: SegoeUI;">
+                                                            {{order.itemName}}
+                                                        </div>
+                                                        <div class="col" style="font-family: SegoeUI;">
+                                                            {{order.itemQuantity }}
+                                                        </div>
+                                                        <div class="col" style="font-family: SegoeUI;">
+                                                            {{order.itemPrice}}
+                                                        </div>
+                                                        <div class="col" style="font-family: SegoeUI;">
+                                                            {{order.itemQuantity*order.itemPrice}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row mb-3">
+                                                    <div class="col text-left" style="font-family: montserrat;">
+                                                        Total Amount
+                                                    </div>
+                                                    <div class="col text-right" style="font-family: montserrat;">
+                                                        {{item.totalAmount}}
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-outline-light text-white bg-dark btn-block" style="font-family: montserrat;" (click)="takeAwayComplete(item)">Complete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <ng-template #elseTemplate>
+                                    <div class="d-flex flex-row justify-content-center align-items-center" style="height: 62vh;">
+                                        <div class="card  bg-light mb-3" style="height: 120px;">
+                                            <div class="card-body">
+                                                <h1 style="margin-top: 20px;">No Orders in pending to be completed.</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <!-- <mat-tab label="Table 1">
+                        <div class="example-large-box mat-elevation-z4" class="example-large-box mat-elevation-z4" style="border-radius: 0px; background-color: whitesmoke;">
+                            <div class="card  p-3 mb-5 bg-white" style="border-radius: 3px; width: 100%;">
+                                <div class="card-body">
+                                    <h5 class="card-title" style="text-align: center;">
+                                        <b>Table No: 01</b>
+                                    </h5>
+                                    <div class="table-responsive" *ngIf="table1">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Quantity</th>
+                                                    <th>Price</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of table1.orders">
+                                                    <td>{{ item.itemName }}</td>
+                                                    <td>{{ item.itemCount }}</td>
+                                                    <td>{{ item.itemPrice }}</td>
+                                                    <td>{{ item.itemTotal }}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Total Amount</th>
+                                                    <th></th>
+                                                    <th>
+                                                        <button (click)="table1Complete()" *ngIf="table1.isComplete" class="btn btn-outline-danger">
+                                Generate bill
+                              </button>
+                                                    </th>
+                                                    <th>{{ table1.totalAmount }}</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Table 2">
+                        <div class="example-large-box mat-elevation-z4" style="border-radius: 20px;">
+                            <div class="card shadow p-3 mb-5 bg-white" style="border-radius: 20px; width: 100%;">
+                                <div class="card-body">
+                                    <h5 class="card-title bg-light" style="text-align: center;">
+                                        <b>Table No: 02</b>
+                                    </h5>
+                                    <div class="table-responsive" *ngIf="table2">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Quantity</th>
+                                                    <th>Price</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of table2.orders">
+                                                    <td>{{ item.itemName }}</td>
+                                                    <td>{{ item.itemCount }}</td>
+                                                    <td>{{ item.itemPrice }}</td>
+                                                    <td>{{ item.itemTotal }}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="bg-light">
+                                                    <th>Total Amount</th>
+                                                    <th></th>
+                                                    <th>
+                                                        <button (click)="table2Complete()" *ngIf="table2.isComplete" class="btn btn-outline-danger">
+                                Generate bill
+                              </button>
+                                                    </th>
+                                                    <th>{{ table2.totalAmount }}</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Table 3">
+                        <div class="example-large-box mat-elevation-z4" style="border-radius: 20px;">
+                            <div class="card shadow p-3 mb-5 bg-white" style="border-radius: 20px; width: 100%;">
+                                <div class="card-body">
+                                    <h5 class="card-title bg-light" style="text-align: center;">
+                                        <b>Table No: 03</b>
+                                    </h5>
+                                    <div class="table-responsive" *ngIf="table3">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Quantity</th>
+                                                    <th>Price</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of table3.orders">
+                                                    <td>{{ item.itemName }}</td>
+                                                    <td>{{ item.itemCount }}</td>
+                                                    <td>{{ item.itemPrice }}</td>
+                                                    <td>{{ item.itemTotal }}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="bg-light">
+                                                    <th>Total Amount</th>
+                                                    <th></th>
+                                                    <th>
+                                                        <button (click)="table3Complete()" *ngIf="table3.isComplete" class="btn btn-outline-danger">
+                                Generate bill
+                              </button>
+                                                    </th>
+                                                    <th>{{ table3.totalAmount }}</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Table 4">
+                        <div class="example-large-box mat-elevation-z4" style="border-radius: 20px;">
+                            <div class="card shadow p-3 mb-5 bg-white" style="border-radius: 20px; width: 100%;">
+                                <div class="card-body">
+                                    <h5 class="card-title bg-light" style="text-align: center;">
+                                        <b>Table No: 04</b>
+                                    </h5>
+                                    <div class="table-responsive" *ngIf="table4">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Quantity</th>
+                                                    <th>Price</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of table4.orders">
+                                                    <td>{{ item.itemName }}</td>
+                                                    <td>{{ item.itemCount }}</td>
+                                                    <td>{{ item.itemPrice }}</td>
+                                                    <td>{{ item.itemTotal }}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="bg-light">
+                                                    <th>Total Amount</th>
+                                                    <th></th>
+                                                    <th>
+                                                        <button (click)="table4Complete()" *ngIf="table4.isComplete" class="btn btn-outline-danger">
+                                Generate bill
+                              </button>
+                                                    </th>
+                                                    <th>{{ table4.totalAmount }}</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Table 5">
+                        <div class="example-large-box mat-elevation-z4" style="border-radius: 20px;">
+                            <div class="card shadow p-3 mb-5 bg-white" style="border-radius: 20px; width: 100%;">
+                                <div class="card-body">
+                                    <h5 class="card-title bg-light" style="text-align: center;">
+                                        <b>Table No: 05</b>
+                                    </h5>
+                                    <div class="table-responsive" *ngIf="table5">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Quantity</th>
+                                                    <th>Price</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of table5.orders">
+                                                    <td>{{ item.itemName }}</td>
+                                                    <td>{{ item.itemCount }}</td>
+                                                    <td>{{ item.itemPrice }}</td>
+                                                    <td>{{ item.itemTotal }}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="bg-light">
+                                                    <th>Total Amount</th>
+                                                    <th></th>
+                                                    <th>
+                                                        <button (click)="table5Complete()" *ngIf="table5.isComplete" class="btn btn-outline-danger">
+                                Generate bill
+                              </button>
+                                                    </th>
+                                                    <th>{{table5.totalAmount}}</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Table 6">
+                        <div class="example-large-box mat-elevation-z4" style="border-radius: 20px;">
+                            <div class="card shadow p-3 mb-5 bg-white" style="border-radius: 20px; width: 100%;">
+                                <div class="card-body">
+                                    <h5 class="card-title bg-light" style="text-align: center;">
+                                        <b>Table No: 06</b>
+                                    </h5>
+                                    <div class="table-responsive" *ngIf="table6">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Quantity</th>
+                                                    <th>Price</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of table6.orders">
+                                                    <td>{{ item.itemName }}</td>
+                                                    <td>{{ item.itemCount }}</td>
+                                                    <td>{{ item.itemPrice }}</td>
+                                                    <td>{{ item.itemTotal }}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="bg-light">
+                                                    <th>Total Amount</th>
+                                                    <th></th>
+                                                    <th>
+                                                        <button (click)="table6Complete()" *ngIf="table6.isComplete" class="btn btn-outline-danger">
+                                Generate bill
+                              </button>
+                                                    </th>
+                                                    <th>{{ table6.totalAmount }}</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab> -->
+                </mat-tab-group>
+            </div>
+            <div class="col-4 ">
+                <h1 style="text-align: center; color: grey; margin-top: 5px;">Notifications</h1>
+                <div class="card p-3 mb-5 bg-light" style="border-radius: 3px; margin-top: 20px; width: 100%; overflow: scroll; position: relative;">
+                    <div class="card-body d-flex flex-wrap" *ngIf="notification" style="height: 400px; width: 350px;  ">
+                        <mat-chip-list class="mat-chip-list-stacked d-flex justify-content-between" aria-label="Color selection">
+                            <mat-chip style="color: white; background-color:#1c2833;" *ngFor="let chip of notification" (removed)="remove(chip)">
+                                {{chip["message"] }} <br><small style="color: grey;">{{chip["timeStamp"]}}</small>
+                                <mat-icon style="color: #58D6b4;" matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                        </mat-chip-list>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

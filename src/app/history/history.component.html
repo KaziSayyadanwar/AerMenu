@@ -1,0 +1,93 @@
+<div class="container-fluid">
+    <div class="d-flex justify-content-between">
+        <div></div>
+        <h4 style="text-align: center; margin-bottom: 20px; font-family: montserrat;">
+            PAST ORDERS
+        </h4>
+        <div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between">
+        <div></div>
+
+        <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate placeholder="Start date" disabled [(ngModel)]="startDate">
+                    <input matEndDate placeholder="End date" disabled [(ngModel)]="endDate">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+            </mat-form-field>
+            <!-- <mat-form-field appearance="fill">
+                <mat-label>Select Date</mat-label>
+                <input matInput [matDatepicker]="dp3" disabled [(ngModel)]="selectedDate">
+                <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+            </mat-form-field> -->
+            <a class="btn bg-light ml-2" style="margin-top: -16px;" (click)="getReport()">Get Report</a>
+            <a class="btn bg-light ml-2" style="margin-top: -16px;" (click)="clearReport()">Clear Date</a>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="search-div" style="text-align: center;">
+        <mat-form-field class="search-form-field" floatLabel="never">
+            <input matInput [(ngModel)]="searchkey" placeholder="search for item" autocomplete="off" (keyup)="applyFilter()" />
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchkey" (click)="onSearchClear()">
+        <mat-icon>close</mat-icon>
+      </button>
+        </mat-form-field>
+    </div>
+    <div class="mat-elevation-z8">
+        <mat-table [dataSource]="ListData">
+            <ng-container matColumnDef="order ID">
+                <mat-header-cell *matHeaderCellDef> Order ID</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <a [routerLink]="['details', element.orderID]" routerLinkActive="active">{{ element.orderID }}</a>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="User">
+                <mat-header-cell *matHeaderCellDef> User</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{ element.userEmail }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="orderDate">
+                <mat-header-cell *matHeaderCellDef> <b>Date</b></mat-header-cell>
+                <mat-cell *matCellDef="let element">{{ element.timeStamp }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="Amount">
+                <mat-header-cell *matHeaderCellDef> Amount (Rs)</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    {{ element.totalAmount }}
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="loading">
+                <mat-footer-cell *matFooterCellDef colspan="6" id="footerRow">
+                    Loading , Please wait ....</mat-footer-cell>
+            </ng-container>
+            <ng-container matColumnDef="noData">
+                <mat-footer-cell *matFooterCellDef colspan="6" id="footerRow">
+                    No Data Found</mat-footer-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayColumns"> </mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayColumns"> </mat-row>
+            <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{ hide: ListData != null }"></mat-footer-row>
+            <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{ hide: !(ListData != null && ListData.data.length == 0) }"></mat-footer-row>
+        </mat-table>
+        <mat-paginator *ngIf="!reportInfo" [pageSizeOptions]="[5, 10]" [pageSize]="5" showFirstLastButtons>
+        </mat-paginator>
+    </div>
+    <div *ngIf="reportInfo" style="margin: 5rem;">
+        <ng-container>
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">Report From {{startDate |date}} to {{endDate|date }}</h1>
+                    <h3>Total orders: {{selectedDateItems.length}}</h3>
+                    <h3>Total Amount : {{totalAmount}}</h3>
+                </div>
+            </div>
+        </ng-container>
+
+    </div>
+</div>
