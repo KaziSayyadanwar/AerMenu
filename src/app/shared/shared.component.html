@@ -33,6 +33,40 @@
             &nbsp;&nbsp; Past Orders</span></a>
             </li>
             <div class="dropdown-divider"></div>
+        </ul>
+
+        <ul id="ul" class="navbar-nav" style="padding: 0px 0px 0px 10px;" *ngFor="let item of category">
+            <li class="nav-item">
+                <a class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" [title]="[item.name]" [routerLink]="['cat',item.category]" routerLinkActive><img class="icons" src="../assets/img/soups.png" alt="wrong path" />
+                    <span class="d-none d-sm-inline"> &nbsp; {{item.name}} </span></a>
+            </li>
+        </ul>
+        <ul id="ul" class="navbar-nav" style="padding: 10px;">
+            <div class="dropdown-divider"></div>
+            <li class="nav-item" style="cursor: pointer;">
+                <a id="toggle" class="btn">
+                    <img style="width: 17px; height: 17px;" class="icons" src="../assets/img/open.png" alt="wrong path" /></a>
+                <a id="toggle1" class="btn" style="display: none;">
+                    <img style="width: 17px; height: 17px;" class="icons" src="../assets/img/close.png" alt="wrong path" />
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- <nav id="theDiv" class="nav flex-column flex-wrap overflow-hidden" style="background-color:#1c2833;">
+        <ul id="ul" class="navbar-nav" style="padding: 10px;">
+            <li class="nav-item">
+                <a id="try" class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" title="Live Orders" [routerLink]="['live']">
+                    <img id="liveonHover" class="icons" src="../assets/img/live-streaming.png" alt="wrong path" />
+                    <span class="d-none d-sm-inline"> &nbsp; Live Orders</span></a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+                <a class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" title="Past orders" [routerLink]="['history']"><img class="icons" src="../assets/img/pastorders.png" alt="wrong path" />
+                    <span class="d-none d-sm-inline">
+            &nbsp;&nbsp; Past Orders</span></a>
+            </li>
+            <div class="dropdown-divider"></div>
             <li class="nav-item">
                 <a class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" title="BURGERS" [routerLink]="['cat1']"><img class="icons" src="../assets/img/soups.png" alt="wrong path" />
                     <span class="d-none d-sm-inline"> &nbsp; BURGERS </span></a>
@@ -44,8 +78,8 @@
             <li class="nav-item">
                 <a class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" title="GRILL SANDWICHES" [routerLink]="['cat3']"><img class="icons" src="../assets/img/maincourse.png" alt="wrong path" />
                     <span class="d-none d-sm-inline">
-            &nbsp; GRILL SANDWICHES
-          </span></a>
+                         &nbsp; GRILL SANDWICHES
+                    </span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" title="FRANKIE" [routerLink]="['cat4']"><img class="icons" src="../assets/img/deserts.png" alt="wrong path" />
@@ -60,7 +94,9 @@
             <li class="nav-item">
                 <a class="nav-link text-truncate" data-toggle="tooltip" data-placement="top" title="SIDERS" [routerLink]="['cat6']"><img class="icons" src="../assets/img/info.png" alt="wrong path" />
                     <span class="d-none d-sm-inline">
-            &nbsp; SIDERS</span></a>
+                         &nbsp; SIDERS
+                    </span>
+                </a>
             </li>
 
             <div class="dropdown-divider bg-alert"></div>
@@ -72,7 +108,7 @@
                 </a>
             </li>
         </ul>
-    </nav>
+    </nav> -->
     <div style="height: 100vh; width: 100%; overflow: scroll;">
         <div class="align-self-center" style="margin-top: 20px;">
             <router-outlet></router-outlet>

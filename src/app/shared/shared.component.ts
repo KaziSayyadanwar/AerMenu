@@ -18,19 +18,17 @@ import { DBService } from '../db.service';
   styleUrls: ['./shared.component.css'],
 })
 export class SharedComponent implements OnInit {
-  // faCoffee = faCoffee;
-  // faUtensils = faUtensils;
-  // faBars = faBars;
-  // faStar = faStar;
-  // faUser = faUser;
-  // faArrowRight = faArrowCircleRight;
-  // faArrowLeft = faArrowCircleLeft;
   left = true;
   right = false;
-
+  category:any;
   constructor(private auth: DBService) {}
   user: firebase.User;
   ngOnInit() {
+
+this.auth.getCategories().subscribe(data=>{
+this.category=data
+})
+
 
     $('#toggle').click(function () {
       var div = $('#theDiv');

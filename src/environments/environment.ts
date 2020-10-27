@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  clientName:'MaggiPoint',
   firebase: {
     apiKey: "AIzaSyBgH0XALQKS89MEfO1TkAgGJGpEqOq2lvI",
     authDomain: "bigbitesburgerss.firebaseapp.com",

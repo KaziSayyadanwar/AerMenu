@@ -7,6 +7,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import * as _ from 'lodash';
 import { Category1VegComponent } from '../category1-veg/category1-veg.component';
 import { Category1NonvegComponent } from '../category1-nonveg/category1-nonveg.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-category1',
@@ -16,6 +17,8 @@ import { Category1NonvegComponent } from '../category1-nonveg/category1-nonveg.c
 export class Category1Component implements OnInit {
   veg: MatTableDataSource<any>;
   nonveg: MatTableDataSource<any>;
+  name: any
+  cat: any
 
   displayColumns: string[] = [
     'Image',
@@ -31,23 +34,36 @@ export class Category1Component implements OnInit {
   @ViewChild('paginatorForNonveg', { read: MatPaginator })
   paginatorForNonveg: MatPaginator;
 
-  constructor(public dbService: DBService, public matDialog: MatDialog) { }
+  constructor(public dbService: DBService, public matDialog: MatDialog, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.dbService.getCategory1().subscribe((data) => {
-      let arrVeg = data["veg"]
-      let veg = _.sortBy(arrVeg, "ItemName")
-      let arrNonveg = data["nonVeg"]
-      let nonveg = _.sortBy(arrNonveg, "ItemName")
-      //veg menu
-      this.veg = new MatTableDataSource(veg);
+    this.route.paramMap.subscribe(params => {
+      this.cat = String(params.get('name'))
+      this.dbService.getCategories().subscribe(data => {
+        let arr = data;
+        let res = arr.find(arr => arr.category == this.cat)
+        this.name = res['name']
+        let arrVeg = res["veg"]
+        let veg = _.sortBy(arrVeg, "ItemName")
+        let arrNonveg = res["nonVeg"]
+        let nonveg = _.sortBy(arrNonveg, "ItemName")
+        //veg menu
+        this.veg = new MatTableDataSource(veg);
+        this.veg.paginator = this.paginatorForVeg;
+        //vonvg menu
+        this.nonveg = new MatTableDataSource(nonveg);
+        this.nonveg.paginator = this.paginatorForNonveg;
+      })
+    })
 
-      this.veg.paginator = this.paginatorForVeg;
-      //vonvg menu
-      this.nonveg = new MatTableDataSource(nonveg);
 
-      this.nonveg.paginator = this.paginatorForNonveg;
-    });
+
+
+
+
+  }
+  loadUserDetail(id: any) {
+    throw new Error('Method not implemented.');
   }
 
   onSearchClearForVeg() {
@@ -74,7 +90,8 @@ export class Category1Component implements OnInit {
     matDialogConfig.disableClose = false;
     matDialogConfig.autoFocus = false;
     matDialogConfig.width = '70%';
-    this.matDialog.open(Category1VegComponent, matDialogConfig);
+    matDialogConfig.data=this.cat
+    this.matDialog.open(Category1VegComponent, {...matDialogConfig});
   }
   onAddNonveg() {
     this.dbService.initializeFormGroup();
@@ -82,6 +99,7 @@ export class Category1Component implements OnInit {
     matDialogConfig.disableClose = false;
     matDialogConfig.autoFocus = false;
     matDialogConfig.width = '70%';
+    matDialogConfig.data=this.cat
     this.matDialog.open(Category1NonvegComponent, matDialogConfig);
   }
 
@@ -91,9 +109,10 @@ export class Category1Component implements OnInit {
     matDialogConfig.disableClose = false;
     matDialogConfig.autoFocus = true;
     matDialogConfig.width = '70%';
+    matDialogConfig.data=this.cat
     let ref = this.matDialog.open(Category1VegComponent, matDialogConfig);
     ref.componentInstance.onAdd.subscribe(() => {
-      this.dbService.deleteCategory1Veg(menuItem)
+      this.dbService.deleteCategoryVeg(this.cat,menuItem)
     });
   }
   onEditNonveg(menuItem) {
@@ -102,20 +121,21 @@ export class Category1Component implements OnInit {
     matDialogConfig.disableClose = false;
     matDialogConfig.autoFocus = true;
     matDialogConfig.width = '70%';
+    matDialogConfig.data=this.cat
     let ref = this.matDialog.open(Category1NonvegComponent, matDialogConfig);
     ref.componentInstance.onAdd.subscribe(() => {
-      this.dbService.deleteCategory1Nonveg(menuItem)
+      this.dbService.deleteCategoryNonveg(this.cat,menuItem)
     });
   }
 
   onDeleteVeg(menuItem) {
     if (confirm('Are you sure to delete this record ?')) {
-      this.dbService.deleteCategory1Veg(menuItem)
+      this.dbService.deleteCategoryVeg(this.cat,menuItem)
     }
   }
   onDeleteNonveg(menuItem) {
     if (confirm('Are you sure to delete this record ?')) {
-      this.dbService.deleteCategory1Nonveg(menuItem)
+      this.dbService.deleteCategoryNonveg(this.cat,menuItem)
     }
   }
 }

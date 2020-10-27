@@ -1,6 +1,6 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, Inject } from '@angular/core';
 import { DBService } from '../db.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
@@ -13,13 +13,14 @@ export class Category1NonvegComponent implements OnInit {
   selectedImage: any = "../assets/img/No-image-available.png"
   selectedFile: string = "No File Selected"
   itemData: any
-  constructor(
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     public dbService: DBService,
     public dialogRef: MatDialogRef<Category1NonvegComponent>,
     private _snackBar: MatSnackBar
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+  }
 
   onClose() {
     this.dialogRef.close();
@@ -32,7 +33,7 @@ export class Category1NonvegComponent implements OnInit {
   onSubmit() {
     if (this.dbService.itemDetailsForm.valid) {
       this.onAdd.emit("some");
-      this.dbService.pushCategory1Nonveg(this.dbService.itemDetailsForm.value)
+      this.dbService.pushCategoryNonveg(this.data,this.dbService.itemDetailsForm.value)
       this.dialogRef.close();
       this.dbService.itemDetailsForm.reset()
     }

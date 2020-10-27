@@ -38,11 +38,6 @@ export class HistoryComponent implements OnInit {
       this.ListData.paginator = this.paginator;
     });
   }
-  sendMail() {
-    this.db.sendMail().subscribe(() => {
-      console.log("works")
-    })
-  }
 
   getReport() {
     this.reportInfo = true

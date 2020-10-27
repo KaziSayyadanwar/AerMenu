@@ -45,8 +45,7 @@ export class HistoryDetailsComponent implements OnInit {
     //   doc.save("invoice.pdf")
     // })
 
-    this.db.sendMail()
-  }
+   }
 
   uploadImg(event: any) {
     console.log(event)

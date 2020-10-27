@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import * as firebase from 'firebase';
 import { IpastOrder } from './ipast-order';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment'
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class DBService {
   eventAuthError$ = this.authError.asObservable();
   pastOrders: any;
   order: any;
-  mail = "http://localhost:3000/sendMail"
+  client = environment.clientName
 
 
   constructor(private firebase: AngularFireDatabase,
@@ -29,11 +30,6 @@ export class DBService {
     private auth: AngularFireAuth,
     private router: Router,
     private http: HttpClient) {
-  }
-
-  sendMail() {
-    let doc = { invoice: "https://firebasestorage.googleapis.com/v0/b/aermenu.appspot.com/o/categoryImages%2F1111.png?alt=media&token=455638eb-2231-4fdf-9784-bbcf50134ac5", to: "anwar.kazi.ak@gmail.com" }
-    return this.http.post(this.mail, doc)
   }
 
   //LoginForm============================================================================================
@@ -93,54 +89,15 @@ export class DBService {
   }
 
   //GetData==========================================================================================================
-  getCategory1() {
-    return (this.afs
-      .collection('BBR')
-      .doc('menu').collection("category1").doc('menuItems')
-      .valueChanges());
+
+  getCategories() {
+      return (this.afs
+      .collection(this.client)
+      .doc('menu').collection('categories')
+      .valueChanges())
   }
-  getCategory2() {
-    return (this.afs
-      .collection('BBR')
-      .doc('menu').collection("category2").doc('menuItems')
-      .valueChanges());
-  }
-  getCategory3() {
-    return (this.afs
-      .collection('BBR')
-      .doc('menu').collection("category3").doc('menuItems')
-      .valueChanges());
-  }
-  getCategory4() {
-    return (this.afs
-      .collection('BBR')
-      .doc('menu').collection("category4").doc('menuItems')
-      .valueChanges());
-  }
-  getCategory5() {
-    return (this.afs
-      .collection('BBR')
-      .doc('menu').collection("category5").doc('menuItems')
-      .valueChanges());
-  }
-  getCategory6() {
-    return (this.afs
-      .collection('BBR')
-      .doc('menu').collection("category6").doc('menuItems')
-      .valueChanges());
-  }
-  getCategory7() {
-    return (this.afs
-      .collection('BBR')
-      .doc('menu').collection("category7").doc('menuItems')
-      .valueChanges());
-  }
-  getCategory8() {
-    return (this.afs
-      .collection('BBR')
-      .doc('menu').collection("category8").doc('menuItems')
-      .valueChanges());
-  }
+
+
 
   getNotification() {
     return (this.afs
@@ -183,277 +140,41 @@ export class DBService {
   }
 
 
-  //Category1 create and delete operations================================================================================
-  pushCategory1Veg(veg) {
+  //Category create and delete operations================================================================================
+  pushCategoryVeg(cat, veg) {
     this.afs
-      .collection('BBR')
-      .doc('menu').collection("category1").doc('menuItems')
+      .collection(this.client)
+      .doc('menu').collection('categories').doc(cat)
       .update({
         'veg': firebase.firestore.FieldValue.arrayUnion(veg),
       })
   }
-  deleteCategory1Veg(veg) {
-    this.afs
-      .collection('BBR')
-      .doc('menu').collection("category1").doc('menuItems')
+  deleteCategoryVeg(cat, veg) {
+       this.afs
+      .collection(this.client)
+      .doc('menu').collection('categories').doc(cat)
       .update({
         'veg': firebase.firestore.FieldValue.arrayRemove(veg),
       })
   }
-  pushCategory1Nonveg(veg) {
-    this.afs
-      .collection('BBR')
-      .doc('menu').collection("category1").doc('menuItems')
+  pushCategoryNonveg(cat, veg) {
+       this.afs
+      .collection(this.client)
+      .doc('menu').collection('categories').doc(cat)
       .update({
         'nonVeg': firebase.firestore.FieldValue.arrayUnion(veg),
       })
   }
-  deleteCategory1Nonveg(veg) {
+  deleteCategoryNonveg(cat, veg) {
     this.afs
-      .collection('BBR')
-      .doc('menu').collection("category1").doc('menuItems')
+      .collection(this.client)
+      .doc('menu').collection('categories').doc(cat)
       .update({
         'nonVeg': firebase.firestore.FieldValue.arrayRemove(veg),
       })
   }
 
-  //Category2 create and delete operations================================================================================
-  pushCategory2Veg(veg) {
-    this.afs
-      .collection('BBR')
-      .doc('menu').collection("category2").doc('menuItems')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayUnion(veg),
-      })
-  }
-  deleteCategory2Veg(veg) {
-    this.afs
-      .collection('BBR')
-      .doc('menu').collection("category2").doc('menuItems')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayRemove(veg),
-      })
-  }
-  pushCategory2Nonveg(veg) {
-    this.afs
-      .collection('BBR')
-      .doc('menu').collection("category2").doc('menuItems')
-      .update({
-        'nonVeg': firebase.firestore.FieldValue.arrayUnion(veg),
-      })
-  }
-  deleteCategory2Nonveg(veg) {
-    this.afs
-      .collection('BBR')
-      .doc('menu').collection("category2").doc('menuItems')
-      .update({
-        'nonVeg': firebase.firestore.FieldValue.arrayRemove(veg),
-      })
-  }
 
-  //Category3 create and delete operations================================================================================
-  pushCategory3Veg(veg) {
-    this.afs
-      .collection('BBR')
-      .doc('menu').collection("category3").doc('menuItems')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayUnion(veg),
-      })
-  }
-  deleteCategory3Veg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category3").doc('menuItems')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayRemove(veg),
-      })
-  }
-  pushCategory3Nonveg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category3").doc('menuItems')
-      .update({
-        'nonVeg': firebase.firestore.FieldValue.arrayUnion(veg),
-      })
-  }
-  deleteCategory3Nonveg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category3").doc('menuItems')
-      .update({
-        'nonVeg': firebase.firestore.FieldValue.arrayRemove(veg),
-      })
-  }
-
-  //Category4 create and delete operations================================================================================
-  pushCategory4Veg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category4").doc('menuItems')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayUnion(veg),
-      })
-  }
-  deleteCategory4Veg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category4").doc('menuItems')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayRemove(veg),
-      })
-  }
-  pushCategory4Nonveg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category4").doc('menuItems')
-      .update({
-        'nonVeg': firebase.firestore.FieldValue.arrayUnion(veg),
-      })
-  }
-  deleteCategory4Nonveg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category4").doc('menuItems')
-      .update({
-        'nonVeg': firebase.firestore.FieldValue.arrayRemove(veg),
-      })
-  }
-
-  //Category5 create and delete operations================================================================================
-  pushCategory5Veg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category5").doc('menuItems')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayUnion(veg),
-      })
-  }
-  deleteCategory5Veg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category5").doc('menuItems')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayRemove(veg),
-      })
-  }
-  pushCategory5Nonveg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category5").doc('menuItems')
-      .update({
-        'nonVeg': firebase.firestore.FieldValue.arrayUnion(veg),
-      })
-  }
-  deleteCategory5Nonveg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category5").doc('menuItems')
-      .update({
-        'nonVeg': firebase.firestore.FieldValue.arrayRemove(veg),
-      })
-  }
-
-  //Category1 create and delete operations================================================================================
-  pushCategory6Veg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category6").doc('menuItems')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayUnion(veg),
-      })
-  }
-  deleteCategory6Veg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category6").doc('menuItems')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayRemove(veg),
-      })
-  }
-  pushCategory6Nonveg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category6").doc('menuItems')
-      .update({
-        'nonVeg': firebase.firestore.FieldValue.arrayUnion(veg),
-      })
-  }
-  deleteCategory6Nonveg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category6").doc('menuItems')
-      .update({
-        'nonVeg': firebase.firestore.FieldValue.arrayRemove(veg),
-      })
-  }
-
-  //Category7 create and delete operations================================================================================
-  pushCategory7Veg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category7").doc('menuItems')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayUnion(veg),
-      })
-  }
-  deleteCategory7Veg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category7").doc('menuItems')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayRemove(veg),
-      })
-  }
-  pushCategory7Nonveg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category7").doc('menuItems')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayUnion(veg),
-      })
-  }
-  deleteCategory7Nonveg(veg) {
-    this.afs
-    .collection('BBR')
-    .doc('menu').collection("category7").doc('menuItems')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayRemove(veg),
-      })
-  }
-
-  //Category8 create and delete operations================================================================================
-  pushCategory8Veg(veg) {
-    this.afs
-      .collection('menu')
-      .doc('GrillSandwich')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayUnion(veg),
-      })
-  }
-  deleteCategory8Veg(veg) {
-    this.afs
-      .collection('menu')
-      .doc('GrillSandwich')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayRemove(veg),
-      })
-  }
-  pushCategory8Nonveg(veg) {
-    this.afs
-      .collection('menu')
-      .doc('GrillSandwich')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayUnion(veg),
-      })
-  }
-  deleteCategory8Nonveg(veg) {
-    this.afs
-      .collection('menu')
-      .doc('GrillSandwich')
-      .update({
-        'veg': firebase.firestore.FieldValue.arrayRemove(veg),
-      })
-  }
 
   // n===============================================================================================
   table1Btn() {
